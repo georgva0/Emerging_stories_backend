@@ -1,7 +1,7 @@
 import fetch from "cross-fetch";
 import microsoftTranslatorApiKey from "../cert/microsoftTranslatorApiKey";
 
-const translation = async (text) => {
+const translateString = async (text) => {
   try {
     const response = await fetch(
       `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en`,
@@ -21,4 +21,4 @@ const translation = async (text) => {
   }
 };
 
-export default translation;
+export default translateString;

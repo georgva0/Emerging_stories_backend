@@ -3,6 +3,7 @@
 import servicesURL_test from "./listings/services_test";
 import getChartbeatApiData from "./helpers/chartbeatApi";
 import getContentApiData from "./helpers/contentApi";
+import translateString from "./helpers/microsoftTranslatorApi";
 
 const allData = [];
 
@@ -48,6 +49,8 @@ const init = () => {
 
         //select the top eight articles across all services
         const allTopEight = collectPagesReduced.slice(0, 8);
+
+        //enhance the articles object with additional properties from Content API (image, alt) and translate article title with Microsoft Translator API
         const allTopEight_enhanced = allTopEight.map((item) => {
           const url = item.url.slice(8);
           getContentApiData(url).then((data) => {
@@ -58,6 +61,9 @@ const init = () => {
               data.results[0].media.images.index
             )[0].altText;
             item.lastPublished = data.results[0].lastPublished;
+          });
+          translateString([{ text: item.title }]).then((data) => {
+            item.translatedTitle = data[0].translations[0].text;
           });
         });
 
