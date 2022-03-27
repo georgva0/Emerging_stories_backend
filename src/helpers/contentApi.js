@@ -17,7 +17,13 @@ const getContentApiData = async (url) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    throw "An error has occurred";
+    // try{
+
+    // } catch(error){
+    //   throw "An error has occurred when trying to access json";
+    // }
+
+    throw "An error has occurred when accessing ContentAPI";
   }
 };
 
