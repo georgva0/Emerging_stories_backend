@@ -23,7 +23,7 @@ const getContentApiData = async (url) => {
     //   throw "An error has occurred when trying to access json";
     // }
 
-    throw "An error has occurred when accessing ContentAPI";
+    console.log(`An error has occurred when accessing ContentAPI for ${url}`);
   }
 };
 

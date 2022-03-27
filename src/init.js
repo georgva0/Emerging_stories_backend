@@ -22,7 +22,7 @@ const init = () => {
     getChartbeatApiData("swahili"),
     getChartbeatApiData("tigrinya"),
     getChartbeatApiData("yoruba"),
-    // getChartbeatApiData("kyrgyz"),
+    getChartbeatApiData("kyrgyz"),
     getChartbeatApiData("uzbek"),
     getChartbeatApiData("burmese"),
     getChartbeatApiData("zhongwen"),
@@ -70,7 +70,11 @@ const init = () => {
 
       const collectPagesFlat = collectPages.flat();
       const collectPagesFiltered = collectPagesFlat.filter(
-        (item) => item.stats.type !== "LandingPage" && item.stats.people > 19
+        (item) =>
+          item.stats.type !== "LandingPage" &&
+          !item.path.includes(`topics`) &&
+          !item.path.includes(`live`) &&
+          item.stats.people > 19
       );
 
       //create new array with objects containing just relevant properties, plus a score property to identify the stories that perform best
@@ -148,31 +152,31 @@ const init = () => {
         });
       });
 
-      // const asiaCentralTopEight = collectPagesReduced
-      //   .filter((item) => {
-      //     if (
-      //       item.service === "uzbek.bbc.co.uk" ||
-      //       item.service === "kyrgyz.bbc.co.uk"
-      //     )
-      //       return item;
-      //   })
-      //   .slice(0, 8);
+      const asiaCentralTopEight = collectPagesReduced
+        .filter((item) => {
+          if (
+            item.service === "uzbek.bbc.co.uk" ||
+            item.service === "kyrgyz.bbc.co.uk"
+          )
+            return item;
+        })
+        .slice(0, 8);
 
-      // const asiaCentralTopEight_enhanced = asiaCentralTopEight.map((item) => {
-      //   const url = item.url.slice(8);
-      //   getContentApiData(url).then((data) => {
-      //     item.imageHref = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].href;
-      //     item.imageAlt = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].altText;
-      //     item.lastPublished = convertTime(data.results[0].lastPublished);
-      //   });
-      //   translateString([{ text: item.title }]).then((data) => {
-      //     item.translatedTitle = data[0].translations[0].text;
-      //   });
-      // });
+      const asiaCentralTopEight_enhanced = asiaCentralTopEight.map((item) => {
+        const url = item.url.slice(8);
+        getContentApiData(url).then((data) => {
+          item.imageHref = Object.values(
+            data.results[0].media.images.index
+          )[0].href;
+          item.imageAlt = Object.values(
+            data.results[0].media.images.index
+          )[0].altText;
+          item.lastPublished = convertTime(data.results[0].lastPublished);
+        });
+        translateString([{ text: item.title }]).then((data) => {
+          item.translatedTitle = data[0].translations[0].text;
+        });
+      });
 
       const asiaPacificTopEight = collectPagesReduced
         .filter((item) => {
@@ -205,134 +209,134 @@ const init = () => {
         });
       });
 
-      // const asiaSouthTopEight = collectPagesReduced
-      //   .filter((item) => {
-      //     if (
-      //       item.service === "bengali.bbc.co.uk" ||
-      //       item.service === "bengali.bbc.co.uk" ||
-      //       item.service === "gujarati.bbc.co.uk" ||
-      //       item.service === "hindi.bbc.co.uk" ||
-      //       item.service === "marathi.bbc.co.uk" ||
-      //       item.service === "nepali.bbc.co.uk" ||
-      //       item.service === "pashto.bbc.co.uk" ||
-      //       item.service === "punjabi.bbc.co.uk" ||
-      //       item.service === "sinhala.bbc.co.uk" ||
-      //       item.service === "tamil.bbc.co.uk" ||
-      //       item.service === "telugu.bbc.co.uk" ||
-      //       item.service === "urdu.bbc.co.uk"
-      //     )
-      //       return item;
-      //   })
-      //   .slice(0, 8);
+      const asiaSouthTopEight = collectPagesReduced
+        .filter((item) => {
+          if (
+            item.service === "bengali.bbc.co.uk" ||
+            item.service === "bengali.bbc.co.uk" ||
+            item.service === "gujarati.bbc.co.uk" ||
+            item.service === "hindi.bbc.co.uk" ||
+            item.service === "marathi.bbc.co.uk" ||
+            item.service === "nepali.bbc.co.uk" ||
+            item.service === "pashto.bbc.co.uk" ||
+            item.service === "punjabi.bbc.co.uk" ||
+            item.service === "sinhala.bbc.co.uk" ||
+            item.service === "tamil.bbc.co.uk" ||
+            item.service === "telugu.bbc.co.uk" ||
+            item.service === "urdu.bbc.co.uk"
+          )
+            return item;
+        })
+        .slice(0, 8);
 
-      // const asiaSouthTopEight_enhanced = asiaSouthTopEight.map((item) => {
-      //   const url = item.url.slice(8);
-      //   getContentApiData(url).then((data) => {
-      //     item.imageHref = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].href;
-      //     item.imageAlt = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].altText;
-      //     item.lastPublished = convertTime(data.results[0].lastPublished);
-      //   });
-      //   translateString([{ text: item.title }]).then((data) => {
-      //     item.translatedTitle = data[0].translations[0].text;
-      //   });
-      // });
+      const asiaSouthTopEight_enhanced = asiaSouthTopEight.map((item) => {
+        const url = item.url.slice(8);
+        getContentApiData(url).then((data) => {
+          item.imageHref = Object.values(
+            data.results[0].media.images.index
+          )[0].href;
+          item.imageAlt = Object.values(
+            data.results[0].media.images.index
+          )[0].altText;
+          item.lastPublished = convertTime(data.results[0].lastPublished);
+        });
+        translateString([{ text: item.title }]).then((data) => {
+          item.translatedTitle = data[0].translations[0].text;
+        });
+      });
 
-      // const europeTopEight = collectPagesReduced
-      //   .filter((item) => {
-      //     if (
-      //       item.service === "azeri.bbc.co.uk" ||
-      //       item.service === "russian.bbc.co.uk" ||
-      //       item.service === "serbian.bbc.co.uk" ||
-      //       item.service === "turkish.bbc.co.uk" ||
-      //       item.service === "ukrainian.bbc.co.uk"
-      //     )
-      //       return item;
-      //   })
-      //   .slice(0, 8);
+      const europeTopEight = collectPagesReduced
+        .filter((item) => {
+          if (
+            item.service === "azeri.bbc.co.uk" ||
+            item.service === "russian.bbc.co.uk" ||
+            item.service === "serbian.bbc.co.uk" ||
+            item.service === "turkish.bbc.co.uk" ||
+            item.service === "ukrainian.bbc.co.uk"
+          )
+            return item;
+        })
+        .slice(0, 8);
 
-      // const europeTopEight_enhanced = europeTopEight.map((item) => {
-      //   const url = item.url.slice(8);
-      //   getContentApiData(url).then((data) => {
-      //     item.imageHref = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].href;
-      //     item.imageAlt = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].altText;
-      //     item.lastPublished = convertTime(data.results[0].lastPublished);
-      //   });
-      //   translateString([{ text: item.title }]).then((data) => {
-      //     item.translatedTitle = data[0].translations[0].text;
-      //   });
-      // });
+      const europeTopEight_enhanced = europeTopEight.map((item) => {
+        const url = item.url.slice(8);
+        getContentApiData(url).then((data) => {
+          item.imageHref = Object.values(
+            data.results[0].media.images.index
+          )[0].href;
+          item.imageAlt = Object.values(
+            data.results[0].media.images.index
+          )[0].altText;
+          item.lastPublished = convertTime(data.results[0].lastPublished);
+        });
+        translateString([{ text: item.title }]).then((data) => {
+          item.translatedTitle = data[0].translations[0].text;
+        });
+      });
 
-      // const americasTopEight = collectPagesReduced
-      //   .filter((item) => {
-      //     if (
-      //       item.service === "mundo.bbc.co.uk" ||
-      //       item.service === "brasil.bbc.co.uk"
-      //     )
-      //       return item;
-      //   })
-      //   .slice(0, 8);
+      const americasTopEight = collectPagesReduced
+        .filter((item) => {
+          if (
+            item.service === "mundo.bbc.co.uk" ||
+            item.service === "brasil.bbc.co.uk"
+          )
+            return item;
+        })
+        .slice(0, 8);
 
-      // const americasTopEight_enhanced = americasTopEight.map((item) => {
-      //   const url = item.url.slice(8);
-      //   getContentApiData(url).then((data) => {
-      //     item.imageHref = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].href;
-      //     item.imageAlt = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].altText;
-      //     item.lastPublished = convertTime(data.results[0].lastPublished);
-      //   });
-      //   translateString([{ text: item.title }]).then((data) => {
-      //     item.translatedTitle = data[0].translations[0].text;
-      //   });
-      // });
+      const americasTopEight_enhanced = americasTopEight.map((item) => {
+        const url = item.url.slice(8);
+        getContentApiData(url).then((data) => {
+          item.imageHref = Object.values(
+            data.results[0].media.images.index
+          )[0].href;
+          item.imageAlt = Object.values(
+            data.results[0].media.images.index
+          )[0].altText;
+          item.lastPublished = convertTime(data.results[0].lastPublished);
+        });
+        translateString([{ text: item.title }]).then((data) => {
+          item.translatedTitle = data[0].translations[0].text;
+        });
+      });
 
-      // const middleEastTopEight = collectPagesReduced
-      //   .filter((item) => {
-      //     if (
-      //       item.service === "arabic.bbc.co.uk" ||
-      //       item.service === "persian.bbc.co.uk"
-      //     )
-      //       return item;
-      //   })
-      //   .slice(0, 8);
+      const middleEastTopEight = collectPagesReduced
+        .filter((item) => {
+          if (
+            item.service === "arabic.bbc.co.uk" ||
+            item.service === "persian.bbc.co.uk"
+          )
+            return item;
+        })
+        .slice(0, 8);
 
-      // const middleEastTopEight_enhanced = middleEastTopEight.map((item) => {
-      //   const url = item.url.slice(8);
-      //   getContentApiData(url).then((data) => {
-      //     item.imageHref = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].href;
-      //     item.imageAlt = Object.values(
-      //       data.results[0].media.images.index
-      //     )[0].altText;
-      //     item.lastPublished = convertTime(data.results[0].lastPublished);
-      //   });
-      //   translateString([{ text: item.title }]).then((data) => {
-      //     item.translatedTitle = data[0].translations[0].text;
-      //   });
-      // });
+      const middleEastTopEight_enhanced = middleEastTopEight.map((item) => {
+        const url = item.url.slice(8);
+        getContentApiData(url).then((data) => {
+          item.imageHref = Object.values(
+            data.results[0].media.images.index
+          )[0].href;
+          item.imageAlt = Object.values(
+            data.results[0].media.images.index
+          )[0].altText;
+          item.lastPublished = convertTime(data.results[0].lastPublished);
+        });
+        translateString([{ text: item.title }]).then((data) => {
+          item.translatedTitle = data[0].translations[0].text;
+        });
+      });
 
       allData.length = 0;
 
       allData.push(
         allTopEight,
         africaTopEight,
-        //asiaCentralTopEight
-        asiaPacificTopEight
-        // asiaSouthTopEight,
-        // europeTopEight,
-        // americasTopEight,
-        // middleEastTopEight
+        asiaCentralTopEight,
+        asiaPacificTopEight,
+        asiaSouthTopEight,
+        europeTopEight,
+        americasTopEight,
+        middleEastTopEight
       );
     })
     .catch(function (error) {
