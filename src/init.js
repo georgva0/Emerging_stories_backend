@@ -1,7 +1,3 @@
-// import regionsUrl from "./listings/regions";
-// import servicesURL from "./listings/services";
-//import servicesURL_test from "./listings/services_test";
-//import services from "./listings/services";
 import getChartbeatApiData from "./helpers/chartbeatApi";
 import getContentApiData from "./helpers/contentApi";
 import translateString from "./helpers/microsoftTranslatorApi";
@@ -22,8 +18,8 @@ const init = () => {
     getChartbeatApiData("swahili"),
     getChartbeatApiData("tigrinya"),
     getChartbeatApiData("yoruba"),
-    getChartbeatApiData("kyrgyz"),
-    getChartbeatApiData("uzbek"),
+    //getChartbeatApiData("kyrgyz"),
+    //getChartbeatApiData("uzbek"),
     getChartbeatApiData("burmese"),
     getChartbeatApiData("zhongwen"),
     getChartbeatApiData("indonesian"),
@@ -74,6 +70,7 @@ const init = () => {
           item.stats.type !== "LandingPage" &&
           !item.path.includes(`topics`) &&
           !item.path.includes(`live`) &&
+          !item.path.includes(`programmes`) &&
           item.stats.people > 19
       );
 
@@ -97,19 +94,38 @@ const init = () => {
       //select the top eight articles across all services
       const allTopEight = collectPagesReduced.slice(0, 8);
 
-      //enhance the articles object with additional properties from Content API (image, alt) and translate article title with Microsoft Translator API
+      //enhance the articles object with additional properties from Content API (image, alt) or from the relevant json file and translate article title with Microsoft Translator API
       const allTopEight_enhanced = allTopEight.map((item) => {
         const url = item.url.slice(8);
         getContentApiData(url).then((data) => {
-          item.imageHref = Object.values(
-            data.results[0].media.images.index
-          )[0].href;
-          item.imageAlt = Object.values(
-            data.results[0].media.images.index
-          )[0].altText;
-          item.lastPublished = convertTime(data.results[0].lastPublished);
+          // item.imageHref = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].href;
+          // item.imageAlt = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].altText;
+          // item.lastPublished = convertTime(data.results[0].lastPublished);
+
+          Object.values(data.results[0].media.images.index)[0].href
+            ? (item.imageHref = Object.values(
+                data.results[0].media.images.index
+              )[0].href)
+            : (item.imageHref = `https://ichef.bbci.co.uk/news/800/cpsprodpb/${data.promo.images.defaultPromoImage.blocks[2].model.locator}`);
+
+          Object.values(data.results[0].media.images.index)[0].altText
+            ? (item.imageAlt = Object.values(
+                data.results[0].media.images.index
+              )[0].altText)
+            : (item.imageAlt =
+                data.promo.images.defaultPromoImage.blocks[1].model.blocks[0].model.blocks[0].model.text);
+
+          convertTime(data.results[0].lastPublished)
+            ? (item.lastPublished = convertTime(data.results[0].lastPublished))
+            : (item.lastPublished = convertTime(
+                new Date(data.metadata.timestamp)
+              ));
         });
-        translateString([{ text: item.title }]).then((data) => {
+        translateString([{ text: item.title }], item.section).then((data) => {
           item.translatedTitle = data[0].translations[0].text;
         });
       });
@@ -139,44 +155,82 @@ const init = () => {
       const africaTopEight_enhanced = africaTopEight.map((item) => {
         const url = item.url.slice(8);
         getContentApiData(url).then((data) => {
-          item.imageHref = Object.values(
-            data.results[0].media.images.index
-          )[0].href;
-          item.imageAlt = Object.values(
-            data.results[0].media.images.index
-          )[0].altText;
-          item.lastPublished = convertTime(data.results[0].lastPublished);
+          // item.imageHref = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].href;
+          // item.imageAlt = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].altText;
+          // item.lastPublished = convertTime(data.results[0].lastPublished);
+
+          Object.values(data.results[0].media.images.index)[0].href
+            ? (item.imageHref = Object.values(
+                data.results[0].media.images.index
+              )[0].href)
+            : (item.imageHref = `https://ichef.bbci.co.uk/news/800/cpsprodpb/${data.promo.images.defaultPromoImage.blocks[2].model.locator}`);
+
+          Object.values(data.results[0].media.images.index)[0].altText
+            ? (item.imageAlt = Object.values(
+                data.results[0].media.images.index
+              )[0].altText)
+            : (item.imageAlt =
+                data.promo.images.defaultPromoImage.blocks[1].model.blocks[0].model.blocks[0].model.text);
+
+          convertTime(data.results[0].lastPublished)
+            ? (item.lastPublished = convertTime(data.results[0].lastPublished))
+            : (item.lastPublished = convertTime(
+                new Date(data.metadata.timestamp)
+              ));
         });
         translateString([{ text: item.title }]).then((data) => {
           item.translatedTitle = data[0].translations[0].text;
         });
       });
 
-      const asiaCentralTopEight = collectPagesReduced
-        .filter((item) => {
-          if (
-            item.service === "uzbek.bbc.co.uk" ||
-            item.service === "kyrgyz.bbc.co.uk"
-          )
-            return item;
-        })
-        .slice(0, 8);
+      // const asiaCentralTopEight = collectPagesReduced
+      //   .filter((item) => {
+      //     if (
+      //       item.service === "uzbek.bbc.co.uk" ||
+      //       item.service === "kyrgyz.bbc.co.uk"
+      //     )
+      //       return item;
+      //   })
+      //   .slice(0, 8);
 
-      const asiaCentralTopEight_enhanced = asiaCentralTopEight.map((item) => {
-        const url = item.url.slice(8);
-        getContentApiData(url).then((data) => {
-          item.imageHref = Object.values(
-            data.results[0].media.images.index
-          )[0].href;
-          item.imageAlt = Object.values(
-            data.results[0].media.images.index
-          )[0].altText;
-          item.lastPublished = convertTime(data.results[0].lastPublished);
-        });
-        translateString([{ text: item.title }]).then((data) => {
-          item.translatedTitle = data[0].translations[0].text;
-        });
-      });
+      // const asiaCentralTopEight_enhanced = asiaCentralTopEight.map((item) => {
+      //   const url = item.url.slice(8);
+      //   getContentApiData(url).then((data) => {
+      // item.imageHref = Object.values(
+      //   data.results[0].media.images.index
+      // )[0].href;
+      // item.imageAlt = Object.values(
+      //   data.results[0].media.images.index
+      // )[0].altText;
+      // item.lastPublished = convertTime(data.results[0].lastPublished);
+
+      //     Object.values(data.results[0].media.images.index)[0].href
+      //       ? (item.imageHref = Object.values(
+      //           data.results[0].media.images.index
+      //         )[0].href)
+      //       : (item.imageHref = `https://ichef.bbci.co.uk/news/800/cpsprodpb/${data.promo.images.defaultPromoImage.blocks[2].model.locator}`);
+
+      //     Object.values(data.results[0].media.images.index)[0].altText
+      //       ? (item.imageAlt = Object.values(
+      //           data.results[0].media.images.index
+      //         )[0].altText)
+      //       : (item.imageAlt =
+      //           data.promo.images.defaultPromoImage.blocks[1].model.blocks[0].model.blocks[0].model.text);
+
+      //     convertTime(data.results[0].lastPublished)
+      //       ? (item.lastPublished = convertTime(data.results[0].lastPublished))
+      //       : (item.lastPublished = convertTime(
+      //           new Date(data.metadata.timestamp)
+      //         ));
+      //   });
+      //   translateString([{ text: item.title }]).then((data) => {
+      //     item.translatedTitle = data[0].translations[0].text;
+      //   });
+      // });
 
       const asiaPacificTopEight = collectPagesReduced
         .filter((item) => {
@@ -196,13 +250,32 @@ const init = () => {
       const asiaPacificTopEight_enhanced = asiaPacificTopEight.map((item) => {
         const url = item.url.slice(8);
         getContentApiData(url).then((data) => {
-          item.imageHref = Object.values(
-            data.results[0].media.images.index
-          )[0].href;
-          item.imageAlt = Object.values(
-            data.results[0].media.images.index
-          )[0].altText;
-          item.lastPublished = convertTime(data.results[0].lastPublished);
+          // item.imageHref = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].href;
+          // item.imageAlt = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].altText;
+          // item.lastPublished = convertTime(data.results[0].lastPublished);
+
+          Object.values(data.results[0].media.images.index)[0].href
+            ? (item.imageHref = Object.values(
+                data.results[0].media.images.index
+              )[0].href)
+            : (item.imageHref = `https://ichef.bbci.co.uk/news/800/cpsprodpb/${data.promo.images.defaultPromoImage.blocks[2].model.locator}`);
+
+          Object.values(data.results[0].media.images.index)[0].altText
+            ? (item.imageAlt = Object.values(
+                data.results[0].media.images.index
+              )[0].altText)
+            : (item.imageAlt =
+                data.promo.images.defaultPromoImage.blocks[1].model.blocks[0].model.blocks[0].model.text);
+
+          convertTime(data.results[0].lastPublished)
+            ? (item.lastPublished = convertTime(data.results[0].lastPublished))
+            : (item.lastPublished = convertTime(
+                new Date(data.metadata.timestamp)
+              ));
         });
         translateString([{ text: item.title }]).then((data) => {
           item.translatedTitle = data[0].translations[0].text;
@@ -232,13 +305,32 @@ const init = () => {
       const asiaSouthTopEight_enhanced = asiaSouthTopEight.map((item) => {
         const url = item.url.slice(8);
         getContentApiData(url).then((data) => {
-          item.imageHref = Object.values(
-            data.results[0].media.images.index
-          )[0].href;
-          item.imageAlt = Object.values(
-            data.results[0].media.images.index
-          )[0].altText;
-          item.lastPublished = convertTime(data.results[0].lastPublished);
+          // item.imageHref = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].href;
+          // item.imageAlt = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].altText;
+          // item.lastPublished = convertTime(data.results[0].lastPublished);
+
+          Object.values(data.results[0].media.images.index)[0].href
+            ? (item.imageHref = Object.values(
+                data.results[0].media.images.index
+              )[0].href)
+            : (item.imageHref = `https://ichef.bbci.co.uk/news/800/cpsprodpb/${data.promo.images.defaultPromoImage.blocks[2].model.locator}`);
+
+          Object.values(data.results[0].media.images.index)[0].altText
+            ? (item.imageAlt = Object.values(
+                data.results[0].media.images.index
+              )[0].altText)
+            : (item.imageAlt =
+                data.promo.images.defaultPromoImage.blocks[1].model.blocks[0].model.blocks[0].model.text);
+
+          convertTime(data.results[0].lastPublished)
+            ? (item.lastPublished = convertTime(data.results[0].lastPublished))
+            : (item.lastPublished = convertTime(
+                new Date(data.metadata.timestamp)
+              ));
         });
         translateString([{ text: item.title }]).then((data) => {
           item.translatedTitle = data[0].translations[0].text;
@@ -261,13 +353,32 @@ const init = () => {
       const europeTopEight_enhanced = europeTopEight.map((item) => {
         const url = item.url.slice(8);
         getContentApiData(url).then((data) => {
-          item.imageHref = Object.values(
-            data.results[0].media.images.index
-          )[0].href;
-          item.imageAlt = Object.values(
-            data.results[0].media.images.index
-          )[0].altText;
-          item.lastPublished = convertTime(data.results[0].lastPublished);
+          // item.imageHref = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].href;
+          // item.imageAlt = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].altText;
+          // item.lastPublished = convertTime(data.results[0].lastPublished);
+
+          Object.values(data.results[0].media.images.index)[0].href
+            ? (item.imageHref = Object.values(
+                data.results[0].media.images.index
+              )[0].href)
+            : (item.imageHref = `https://ichef.bbci.co.uk/news/800/cpsprodpb/${data.promo.images.defaultPromoImage.blocks[2].model.locator}`);
+
+          Object.values(data.results[0].media.images.index)[0].altText
+            ? (item.imageAlt = Object.values(
+                data.results[0].media.images.index
+              )[0].altText)
+            : (item.imageAlt =
+                data.promo.images.defaultPromoImage.blocks[1].model.blocks[0].model.blocks[0].model.text);
+
+          convertTime(data.results[0].lastPublished)
+            ? (item.lastPublished = convertTime(data.results[0].lastPublished))
+            : (item.lastPublished = convertTime(
+                new Date(data.metadata.timestamp)
+              ));
         });
         translateString([{ text: item.title }]).then((data) => {
           item.translatedTitle = data[0].translations[0].text;
@@ -287,13 +398,32 @@ const init = () => {
       const americasTopEight_enhanced = americasTopEight.map((item) => {
         const url = item.url.slice(8);
         getContentApiData(url).then((data) => {
-          item.imageHref = Object.values(
-            data.results[0].media.images.index
-          )[0].href;
-          item.imageAlt = Object.values(
-            data.results[0].media.images.index
-          )[0].altText;
-          item.lastPublished = convertTime(data.results[0].lastPublished);
+          // item.imageHref = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].href;
+          // item.imageAlt = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].altText;
+          // item.lastPublished = convertTime(data.results[0].lastPublished);
+
+          Object.values(data.results[0].media.images.index)[0].href
+            ? (item.imageHref = Object.values(
+                data.results[0].media.images.index
+              )[0].href)
+            : (item.imageHref = `https://ichef.bbci.co.uk/news/800/cpsprodpb/${data.promo.images.defaultPromoImage.blocks[2].model.locator}`);
+
+          Object.values(data.results[0].media.images.index)[0].altText
+            ? (item.imageAlt = Object.values(
+                data.results[0].media.images.index
+              )[0].altText)
+            : (item.imageAlt =
+                data.promo.images.defaultPromoImage.blocks[1].model.blocks[0].model.blocks[0].model.text);
+
+          convertTime(data.results[0].lastPublished)
+            ? (item.lastPublished = convertTime(data.results[0].lastPublished))
+            : (item.lastPublished = convertTime(
+                new Date(data.metadata.timestamp)
+              ));
         });
         translateString([{ text: item.title }]).then((data) => {
           item.translatedTitle = data[0].translations[0].text;
@@ -313,13 +443,32 @@ const init = () => {
       const middleEastTopEight_enhanced = middleEastTopEight.map((item) => {
         const url = item.url.slice(8);
         getContentApiData(url).then((data) => {
-          item.imageHref = Object.values(
-            data.results[0].media.images.index
-          )[0].href;
-          item.imageAlt = Object.values(
-            data.results[0].media.images.index
-          )[0].altText;
-          item.lastPublished = convertTime(data.results[0].lastPublished);
+          // item.imageHref = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].href;
+          // item.imageAlt = Object.values(
+          //   data.results[0].media.images.index
+          // )[0].altText;
+          // item.lastPublished = convertTime(data.results[0].lastPublished);
+
+          Object.values(data.results[0].media.images.index)[0].href
+            ? (item.imageHref = Object.values(
+                data.results[0].media.images.index
+              )[0].href)
+            : (item.imageHref = `https://ichef.bbci.co.uk/news/800/cpsprodpb/${data.promo.images.defaultPromoImage.blocks[2].model.locator}`);
+
+          Object.values(data.results[0].media.images.index)[0].altText
+            ? (item.imageAlt = Object.values(
+                data.results[0].media.images.index
+              )[0].altText)
+            : (item.imageAlt =
+                data.promo.images.defaultPromoImage.blocks[1].model.blocks[0].model.blocks[0].model.text);
+
+          convertTime(data.results[0].lastPublished)
+            ? (item.lastPublished = convertTime(data.results[0].lastPublished))
+            : (item.lastPublished = convertTime(
+                new Date(data.metadata.timestamp)
+              ));
         });
         translateString([{ text: item.title }]).then((data) => {
           item.translatedTitle = data[0].translations[0].text;
@@ -331,7 +480,7 @@ const init = () => {
       allData.push(
         allTopEight,
         africaTopEight,
-        asiaCentralTopEight,
+        //asiaCentralTopEight,
         asiaPacificTopEight,
         asiaSouthTopEight,
         europeTopEight,
@@ -344,24 +493,5 @@ const init = () => {
       console.log(error);
     });
 };
-
-// const collectDataRaw = () => {
-//   console.log("raw data collection started");
-//   servicesURL_test.forEach((item) => {
-//     getChartbeatApiData(item.serviceUrl).then((data) => {
-//       allDataRaw.push(data);
-//     });
-//   });
-//   console.log("raw data collection finished");
-// };
-
-// const collectPages = [];
-// const collectAllPages = () => {
-//   console.log(allDataRaw);
-//   allDataRaw.forEach((item) => {
-//     collectPages.push(item.pages);
-//   });
-//   console.log("pages collection finished");
-// };
 
 export { init, allData };

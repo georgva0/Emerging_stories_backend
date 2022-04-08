@@ -1,15 +1,19 @@
 import express from "express";
-import { init, allData, test } from "./init";
+import { init, allData } from "./init";
+import regionsURL from "./listings/regions";
 
 init();
 
 const app = express();
 
-//app.get("/hello", (req, res) => res.send("Hello!"));
-//app.get("/trans", (req, res) => res.send(test));
-app.get("/test", (req, res) => res.send(allData));
-app.get("/getlanguagedata/:region", (req, res) =>
-  res.send(`This is the info for ${req.params.region}`)
-);
+app.get("/api/all", (req, res) => res.send(allData[0]));
+app.get("/api/:region", (req, res) => {
+  let regionsArray = regionsURL.map((item) => item.serviceUrl);
+  if (regionsArray.indexOf(req.params.region) !== -1) {
+    res.send(allData[regionsArray.indexOf(req.params.region) + 1]);
+  } else {
+    res.send(`${req.params.region} is not a valid WS region.`);
+  }
+});
 
 app.listen(8000, () => console.log("Listening on port 8000"));
