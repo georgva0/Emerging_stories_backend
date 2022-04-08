@@ -36,7 +36,7 @@ const translateString = async (text, language) => {
   } else {
     try {
       const response = await fetch(
-        `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=${unRecognised.language}&to=en`,
+        `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&&to=en`,
         // saving this parameter in case if ever needed &from=${unRecognised.language}
         {
           method: "POST",
