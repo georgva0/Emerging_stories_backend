@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/fe855c2c-3465-44c1-8918-4b9cc6d0c9e1/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/emerging-stories-backend",
+  "appService.deploySubpath": "."
+}

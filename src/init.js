@@ -71,6 +71,8 @@ const init = () => {
           !item.path.includes(`topics`) &&
           !item.path.includes(`live`) &&
           !item.path.includes(`programmes`) &&
+          !item.path.includes(`extra`) &&
+          !item.path.includes(`_radio`) &&
           item.stats.people > 19
       );
 
@@ -126,7 +128,11 @@ const init = () => {
               ));
         });
         translateString([{ text: item.title }], item.section).then((data) => {
-          item.translatedTitle = data[0].translations[0].text;
+          if (data) {
+            item.translatedTitle = data[0].translations[0].text;
+          } else {
+            item.translatedTitle = item.title;
+          }
         });
       });
 
@@ -182,9 +188,17 @@ const init = () => {
                 new Date(data.metadata.timestamp)
               ));
         });
-        translateString([{ text: item.title }]).then((data) => {
-          item.translatedTitle = data[0].translations[0].text;
-        });
+        try {
+          translateString([{ text: item.title }]).then((data) => {
+            data !== undefined
+              ? (item.translatedTitle = data[0].translations[0].text)
+              : (item.translatedTitle = item.title);
+          });
+        } catch (error) {
+          console.log(
+            `An error has occurred when trying to translate string: ${error}`
+          );
+        }
       });
 
       // const asiaCentralTopEight = collectPagesReduced
@@ -278,7 +292,9 @@ const init = () => {
               ));
         });
         translateString([{ text: item.title }]).then((data) => {
-          item.translatedTitle = data[0].translations[0].text;
+          data !== undefined
+            ? (item.translatedTitle = data[0].translations[0].text)
+            : (item.translatedTitle = item.title);
         });
       });
 
@@ -333,7 +349,9 @@ const init = () => {
               ));
         });
         translateString([{ text: item.title }]).then((data) => {
-          item.translatedTitle = data[0].translations[0].text;
+          data[0].translations !== undefined
+            ? (item.translatedTitle = data[0].translations[0].text)
+            : (item.translatedTitle = item.title);
         });
       });
 
@@ -381,7 +399,9 @@ const init = () => {
               ));
         });
         translateString([{ text: item.title }]).then((data) => {
-          item.translatedTitle = data[0].translations[0].text;
+          data !== undefined
+            ? (item.translatedTitle = data[0].translations[0].text)
+            : (item.translatedTitle = item.title);
         });
       });
 
@@ -426,7 +446,9 @@ const init = () => {
               ));
         });
         translateString([{ text: item.title }]).then((data) => {
-          item.translatedTitle = data[0].translations[0].text;
+          data !== undefined
+            ? (item.translatedTitle = data[0].translations[0].text)
+            : (item.translatedTitle = item.title);
         });
       });
 
@@ -471,7 +493,9 @@ const init = () => {
               ));
         });
         translateString([{ text: item.title }]).then((data) => {
-          item.translatedTitle = data[0].translations[0].text;
+          data !== undefined
+            ? (item.translatedTitle = data[0].translations[0].text)
+            : (item.translatedTitle = item.title);
         });
       });
 

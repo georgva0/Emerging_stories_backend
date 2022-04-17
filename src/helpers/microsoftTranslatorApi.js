@@ -8,11 +8,11 @@ const translateString = async (text, language) => {
     bengali: "bn",
     kyrgyz: "ky",
     marathi: "mr",
-    //nepali: "ne",
+    nepali: "ne",
     punjabi: "pa",
     telugu: "te",
     tigrinya: "ti",
-    //tamil: "ta",
+    tamil: "ta",
   };
 
   if (Object.keys(unRecognised).indexOf(language) === -1) {

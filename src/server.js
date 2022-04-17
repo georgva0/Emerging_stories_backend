@@ -5,6 +5,7 @@ import regionsURL from "./listings/regions";
 init();
 
 const app = express();
+const port = process.env.PORT || 8000;
 
 app.get("/api/all", (req, res) => res.send(allData[0]));
 app.get("/api/:region", (req, res) => {
@@ -16,4 +17,4 @@ app.get("/api/:region", (req, res) => {
   }
 });
 
-app.listen(8000, () => console.log("Listening on port 8000"));
+app.listen(port, () => console.log(`Listening on port ${port}`));
