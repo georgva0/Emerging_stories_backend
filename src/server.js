@@ -7,6 +7,7 @@ init();
 const app = express();
 const port = process.env.PORT || 8000;
 
+app.get("/", (req, res) => res.send("App started!"));
 app.get("/api/all", (req, res) => res.send(allData[0]));
 app.get("/api/:region", (req, res) => {
   let regionsArray = regionsURL.map((item) => item.serviceUrl);
