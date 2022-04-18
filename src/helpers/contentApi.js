@@ -4,7 +4,7 @@ import contentApiKey from "../cert/contentApiKey";
 const getContentApiData = async (url) => {
   try {
     const response = await fetch(
-      `http://content-api-a127.api.bbci.co.uk/asset/${url}?api_key=${contentApiKey}`,
+      `http://content-api-a127.api.bbci.co.uk/asset/${url}?api_key=${process.env.CONTENT_API_KEY}`,
       {
         method: "GET",
         headers: {
