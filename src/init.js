@@ -67,7 +67,7 @@ const init = () => {
       const collectPagesFlat = collectPages.flat();
       const collectPagesFiltered = collectPagesFlat.filter(
         (item) =>
-          item.stats.type !== "LandingPage" &&
+          clearitem.stats.type !== "LandingPage" &&
           !item.path.includes(`topics`) &&
           !item.path.includes(`live`) &&
           !item.path.includes(`programmes`) &&

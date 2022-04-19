@@ -22,7 +22,8 @@ const translateString = async (text, language) => {
         {
           method: "POST",
           headers: {
-            "Ocp-Apim-Subscription-Key": microsoftTranslatorApiKey,
+            "Ocp-Apim-Subscription-Key":
+              process.env.MICROSOFT_TRANSLATOR_API_KEY,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(text),
