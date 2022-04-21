@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/cert/microsoftTranslatorApiKey.js"],"names":["microsoftTranslatorApiKey"],"mappings":";;;;;;AAAA,IAAMA,yBAAyB,GAAG,kCAAlC;eACeA,yB","sourcesContent":["const microsoftTranslatorApiKey = \"e32907f3bb4945c4bb3d074bd9ed11cd\";\nexport default microsoftTranslatorApiKey;\n"],"file":"microsoftTranslatorApiKey.js"}
