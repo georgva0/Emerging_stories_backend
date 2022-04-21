@@ -1,6 +1,6 @@
 import express from "express";
-import { init, allData } from "./src/init";
-import regionsURL from "./src/listings/regions";
+import { init, allData } from "./init";
+import regionsURL from "./listings/regions";
 
 init();
 

@@ -1,5 +1,5 @@
 import fetch from "cross-fetch";
-import microsoftTranslatorApiKey from "../cert/microsoftTranslatorApiKey";
+//import microsoftTranslatorApiKey from "../cert/microsoftTranslatorApiKey";
 
 const translateString = async (text, language) => {
   const unRecognised = {

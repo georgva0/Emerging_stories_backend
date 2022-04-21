@@ -1,5 +1,5 @@
 import fetch from "cross-fetch";
-import contentApiKey from "../cert/contentApiKey";
+//import contentApiKey from "../cert/contentApiKey";
 
 const getContentApiData = async (url) => {
   try {
