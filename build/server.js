@@ -1,12 +1,12 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 var _express = _interopRequireDefault(require("express"));
 
 var _init = require("./init");
 
 var _regions = _interopRequireDefault(require("./listings/regions"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 (0, _init.init)();
 var app = (0, _express["default"])();

@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,8 +14,6 @@ var _contentApi = _interopRequireDefault(require("./helpers/contentApi"));
 var _microsoftTranslatorApi = _interopRequireDefault(require("./helpers/microsoftTranslatorApi"));
 
 var _convertTime = _interopRequireDefault(require("./helpers/convertTime"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var allData = [];
 exports.allData = allData;
