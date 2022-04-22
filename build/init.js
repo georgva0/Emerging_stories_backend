@@ -35,6 +35,7 @@ var init = function init() {
       collectPages.push(item.pages);
     }); //flatten array and remove pages that are out of scope
 
+    console.log(collectPages[0]);
     var collectPagesFlat = collectPages.flat();
     var collectPagesFiltered = collectPagesFlat.filter(function (item) {
       return clearitem.stats.type !== "LandingPage" && !item.path.includes("topics") && !item.path.includes("live") && !item.path.includes("programmes") && !item.path.includes("extra") && !item.path.includes("_radio") && item.stats.people > 19;
