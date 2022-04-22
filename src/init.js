@@ -63,6 +63,7 @@ const init = () => {
         collectPages.push(item.pages);
       });
       //flatten array and remove pages that are out of scope
+      console.log(collectPages[0]);
 
       const collectPagesFlat = collectPages.flat();
       const collectPagesFiltered = collectPagesFlat.filter(
