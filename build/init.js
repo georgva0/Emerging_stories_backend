@@ -38,7 +38,7 @@ var init = function init() {
     console.log(collectPages[0]);
     var collectPagesFlat = collectPages.flat();
     var collectPagesFiltered = collectPagesFlat.filter(function (item) {
-      return clearitem.stats.type !== "LandingPage" && !item.path.includes("topics") && !item.path.includes("live") && !item.path.includes("programmes") && !item.path.includes("extra") && !item.path.includes("_radio") && item.stats.people > 19;
+      return item.stats.type !== "LandingPage" && !item.path.includes("topics") && !item.path.includes("live") && !item.path.includes("programmes") && !item.path.includes("extra") && !item.path.includes("_radio") && item.stats.people > 19;
     }); //create new array with objects containing just relevant properties, plus a score property to identify the stories that perform best
 
     var collectPagesReduced = collectPagesFiltered.map(function (item) {
