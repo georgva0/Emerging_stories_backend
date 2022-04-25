@@ -1,11 +1,18 @@
 import express from "express";
 import { init, allData } from "./init";
 import regionsURL from "./listings/regions";
+import cors from "cors";
 
 init();
 
 const app = express();
 const port = process.env.PORT || 8000;
+
+app.use(
+  cors({
+    origin: "https://emerging-stories.netlify.app",
+  })
+);
 
 app.get("/", (req, res) => res.send("App started!"));
 app.get("/api/all", (req, res) => res.send(allData[0]));

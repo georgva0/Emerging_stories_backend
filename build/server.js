@@ -8,9 +8,14 @@ var _init = require("./init");
 
 var _regions = _interopRequireDefault(require("./listings/regions"));
 
+var _cors = _interopRequireDefault(require("cors"));
+
 (0, _init.init)();
 var app = (0, _express["default"])();
 var port = process.env.PORT || 8000;
+app.use((0, _cors["default"])({
+  origin: "https://emerging-stories.netlify.app"
+}));
 app.get("/", function (req, res) {
   return res.send("App started!");
 });
