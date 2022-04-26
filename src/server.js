@@ -14,6 +14,8 @@ app.use(
   })
 );
 
+//routes
+
 app.get("/", (req, res) => res.send("App started!"));
 app.get("/api/all", (req, res) => res.send(allData[0]));
 app.get("/api/:region", (req, res) => {
