@@ -2,6 +2,7 @@ import getChartbeatApiData from "./helpers/chartbeatApi";
 import getContentApiData from "./helpers/contentApi";
 import translateString from "./helpers/microsoftTranslatorApi";
 import convertTime from "./helpers/convertTime";
+import optimiseImage from "./helpers/imageOptimiser";
 
 const allData = [];
 
